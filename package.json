@@ -1,0 +1,4 @@
+{
+  "name": "trade-tariff-cloudwatch-synthetics",
+  "packageManager": "yarn@3.6.4"
+}
