@@ -1,1 +1,4 @@
-# trade-tariff-cloudwatch-synthetics
+# trade-tariff-cloudwatch-synthetics-canaries
+
+AWS CloudWatch Synthetics Canaries.
+
