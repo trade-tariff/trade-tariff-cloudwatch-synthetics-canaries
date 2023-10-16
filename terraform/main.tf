@@ -22,8 +22,8 @@ resource "aws_synthetics_canary" "api_health_canary" {
   failure_retention_period = 7
 
   schedule {
-    expression          = "cron(0 * * * *)" # on the hour, every hour
-    duration_in_seconds = 0                 # run once
+    expression          = "cron(0 * * * ? *)" # on the hour, every hour
+    duration_in_seconds = 0                   # run once
   }
 
   run_config {
