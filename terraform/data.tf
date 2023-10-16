@@ -67,7 +67,7 @@ data "aws_iam_policy_document" "canary_role_policy" {
       "kms:GenerateDataKey"
     ]
     resources = [
-      aws_kms_key.canary_bucket_key.key_id
+      aws_kms_key.canary_bucket_key.arn
     ]
   }
 }
