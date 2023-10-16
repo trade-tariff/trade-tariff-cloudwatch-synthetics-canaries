@@ -50,8 +50,9 @@ data "aws_iam_policy_document" "canary_role_policy" {
   }
 
   statement {
-    effect  = "Allow"
-    actions = ["cloudwatch:PutMetricData"]
+    effect    = "Allow"
+    actions   = ["cloudwatch:PutMetricData"]
+    resources = ["*"]
     condition {
       test     = "StringEquals"
       values   = ["CloudWatchSynthetics"]
