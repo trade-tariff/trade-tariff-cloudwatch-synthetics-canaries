@@ -11,7 +11,8 @@ data "archive_file" "lambda_canary_zip" {
 
 resource "aws_synthetics_canary" "api_health_canary" {
   name                 = "api-healthcheck"
-  artifact_s3_location = "s3://${module.canary_reports.bucket.s3_bucket_id}/"
+  artifact_s3_location = "s3://${module.canary_reports_bucket.s3_bucket_id}/"
+  execution_role_arn   = aws_iam_role.canary_role.arn
   handler              = "exports.handler"
   runtime_version      = "syn-nodejs-puppeteer-6.0"
   start_canary         = true
@@ -62,5 +63,4 @@ module "canary_reports_bucket" {
       }
     }
   }
-
 }
