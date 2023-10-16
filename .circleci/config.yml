@@ -1,17 +1,35 @@
 version: 2.1
 
+filter-not-main: &filter-not-main
+  filters:
+    branches:
+      ignore:
+        - main
+        - /^dependabot/(?!docker/).*/
+        - /^hotfix\/.+/
+
+filter-main: &filter-main
+  filters:
+    branches:
+      only:
+        - main
+        - /^hotfix\/.+/
+
 orbs:
   terraform: "circleci/terraform@3.2.1"
 
 executors:
   default:
-    working_directory: "/tmp/terraform"
-    resource_class: small
     docker:
       - image: hashicorp/terraform:1.5.5
+    resource_class: small
+    working_directory: "/tmp/terraform"
+    environment:
+      TF_INPUT: 0
+      TF_IN_AUTOMATION: 1
 
 jobs:
-  fmt_validate_terraform:
+  fmt-terraform:
     executor: default
     steps:
       - checkout
@@ -19,19 +37,14 @@ jobs:
       - terraform/fmt
       - terraform/validate
 
-  plan_terraform:
+  plan-terraform:
     executor: default
     steps:
       - checkout
       - terraform/init
-      - terraform/plan:
-          out: tfplan
-      - persist_to_workspace:
-          root: .
-          paths:
-            - tfplan
+      - terraform/plan
 
-  apply_terraform:
+  apply-terraform:
     executor: default
     steps:
       - checkout
@@ -40,27 +53,25 @@ jobs:
 
 workflows:
   version: 2
-  terraform:
+
+  deploy-to-development:
     jobs:
-      - fmt_validate_terraform:
-          context: trade-tariff-bot-github
-          filters:
-            branches:
-              ignore:
-                - main
+      - fmt-terraform:
+          name: fmt-terraform-dev
+          context: trade-tariff-terraform-aws-development
+          <<: *filter-not-main
 
-      - plan_terraform:
-          context: trade-tariff-bot-github
+      - plan-terraform:
+          name: plan-terraform-dev
+          context: trade-tariff-terraform-aws-development
+          <<: *filter-not-main
           requires:
-            - fmt_validate_terraform
-          filters:
-            branches:
-              ignore:
-                - main
+            - fmt-terraform-dev
 
-      - apply_terraform:
-          context: trade-tariff-bot-github
-          filters:
-            branches:
-              only:
-                - main
+      - apply-terraform:
+          name: apply-terraform-dev
+          context: trade-tariff-terraform-aws-development
+          <<: *filter-not-main
+          requires:
+            - plan-terraform-dev
+  
