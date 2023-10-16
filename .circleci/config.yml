@@ -31,6 +31,9 @@ executors:
 jobs:
   fmt-terraform:
     executor: default
+    parameters:
+      environment:
+        type: string
     steps:
       - checkout
       - terraform/init:
@@ -43,6 +46,9 @@ jobs:
 
   plan-terraform:
     executor: default
+    parameters:
+      environment:
+        type: string
     steps:
       - checkout
       - terraform/init:
@@ -54,6 +60,9 @@ jobs:
 
   apply-terraform:
     executor: default
+    parameters:
+      environment:
+        type: string
     steps:
       - checkout
       - run: cd terraform/
@@ -72,11 +81,13 @@ workflows:
       - fmt-terraform:
           name: fmt-terraform-dev
           context: trade-tariff-terraform-aws-development
+          environment: development
           <<: *filter-not-main
 
       - plan-terraform:
           name: plan-terraform-dev
           context: trade-tariff-terraform-aws-development
+          environment: development
           <<: *filter-not-main
           requires:
             - fmt-terraform-dev
@@ -84,6 +95,7 @@ workflows:
       - apply-terraform:
           name: apply-terraform-dev
           context: trade-tariff-terraform-aws-development
+          environment: development
           <<: *filter-not-main
           requires:
             - plan-terraform-dev
