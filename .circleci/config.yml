@@ -65,7 +65,6 @@ jobs:
         type: string
     steps:
       - checkout
-      - run: cd terraform/
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
