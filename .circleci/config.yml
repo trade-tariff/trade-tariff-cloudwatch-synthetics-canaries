@@ -33,23 +33,31 @@ jobs:
     executor: default
     steps:
       - checkout
-      - terraform/init
-      - terraform/fmt
-      - terraform/validate
+      - terraform/init:
+          path: terraform/
+      - terraform/fmt:
+          path: terraform/
+      - terraform/validate:
+          path: terraform/
 
   plan-terraform:
     executor: default
     steps:
       - checkout
-      - terraform/init
-      - terraform/plan
+      - terraform/init:
+          path: terraform/
+      - terraform/plan:
+          path: terraform/
 
   apply-terraform:
     executor: default
     steps:
       - checkout
-      - terraform/init
-      - terraform/apply
+      - run: cd terraform/
+      - terraform/init:
+          path: terraform/
+      - terraform/apply:
+          path: terraform/
 
 workflows:
   version: 2
