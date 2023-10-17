@@ -39,8 +39,6 @@ const entryPoint = async function () {
   return "Successfully completed healthcheck canary.";
 };
 
-entryPoint();
-
 exports.handler = async () => {
   return await entryPoint();
 };
