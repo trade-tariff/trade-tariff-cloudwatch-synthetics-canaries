@@ -5,7 +5,7 @@ data "archive_file" "lambda_canary_zip" {
 
   source {
     content  = local.file
-    filename = "nodejs/node_modules/canary.js"
+    filename = "nodejs/node_modules/index.js"
   }
 }
 
@@ -13,7 +13,7 @@ resource "aws_synthetics_canary" "api_health_canary" {
   name                 = "api-healthcheck"
   artifact_s3_location = "s3://${module.canary_reports_bucket.s3_bucket_id}/"
   execution_role_arn   = aws_iam_role.canary_role.arn
-  handler              = "exports.handler"
+  handler              = "index.handler"
   runtime_version      = "syn-nodejs-puppeteer-6.0"
   start_canary         = true
   zip_file             = local.zip
@@ -22,12 +22,12 @@ resource "aws_synthetics_canary" "api_health_canary" {
   failure_retention_period = 7
 
   schedule {
-    expression          = "cron(0 * * * ? *)" # on the hour, every hour
-    duration_in_seconds = 0                   # run once
+    expression          = "rate(5 minutes)"
+    duration_in_seconds = 0
   }
 
   run_config {
-    timeout_in_seconds = 5
+    timeout_in_seconds = 30
     active_tracing     = false
   }
 
