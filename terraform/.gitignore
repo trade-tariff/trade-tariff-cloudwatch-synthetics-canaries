@@ -26,6 +26,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+modules/*/.terraform.lock.hcl
+
 # nix things
 .envrc
 .direnv/
