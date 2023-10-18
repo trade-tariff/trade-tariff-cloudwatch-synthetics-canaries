@@ -1,4 +1,0 @@
-bucket         = "terraform-state-staging-451934005581"
-key            = "tariff-cloudwatch-canaries.tfstate"
-region         = "eu-west-2"
-encrypt        = true

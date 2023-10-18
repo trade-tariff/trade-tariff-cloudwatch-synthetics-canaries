@@ -75,26 +75,26 @@ jobs:
 workflows:
   version: 2
 
-  deploy-to-development:
+  deploy-to-production:
     jobs:
       - fmt-terraform:
-          name: fmt-terraform-dev
-          context: trade-tariff-terraform-aws-development
-          environment: development
+          name: fmt-terraform-prod
+          context: trade-tariff-terraform-aws-production
+          environment: production
           <<: *filter-not-main
 
       - plan-terraform:
-          name: plan-terraform-dev
-          context: trade-tariff-terraform-aws-development
-          environment: development
+          name: plan-terraform-prod
+          context: trade-tariff-terraform-aws-production
+          environment: production
           <<: *filter-not-main
           requires:
-            - fmt-terraform-dev
+            - fmt-terraform-prod
 
       - apply-terraform:
-          name: apply-terraform-dev
-          context: trade-tariff-terraform-aws-development
-          environment: development
-          <<: *filter-not-main
+          name: apply-terraform-prod
+          context: trade-tariff-terraform-aws-production
+          environment: production
+          <<: *filter-main
           requires:
-            - plan-terraform-dev
+            - plan-terraform-prod
