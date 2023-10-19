@@ -20,6 +20,7 @@
 |------|--------|---------|
 | <a name="module_api_healthcheck"></a> [api\_healthcheck](#module\_api\_healthcheck) | ./modules/canary | n/a |
 | <a name="module_canary_reports_bucket"></a> [canary\_reports\_bucket](#module\_canary\_reports\_bucket) | github.com/terraform-aws-modules/terraform-aws-s3-bucket | v3.15.1 |
+| <a name="module_search_canary"></a> [search\_canary](#module\_search\_canary) | ./modules/canary | n/a |
 
 ## Resources
 
