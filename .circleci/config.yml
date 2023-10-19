@@ -96,5 +96,3 @@ workflows:
           context: trade-tariff-terraform-aws-production
           environment: production
           <<: *filter-main
-          requires:
-            - plan-terraform-prod
